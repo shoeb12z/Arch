@@ -37,7 +37,7 @@
         /* Import Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700&display=swap');
 
-        /* Custom Keyframes for Animations (Replicating React component effects) */
+        /* Custom Keyframes for Animations */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -48,13 +48,6 @@
         .delay-300 { animation-delay: 0.3s; }
         .delay-500 { animation-delay: 0.5s; }
         .delay-800 { animation-delay: 0.8s; }
-
-        @keyframes float-1 { 0%, 100% { transform: translateY(0) rotate(0deg) scale(1); } 50% { transform: translateY(-30px) rotate(8deg) scale(1.1); } }
-        @keyframes float-2 { 0%, 100% { transform: translateY(0) rotate(0deg) scale(1); } 50% { transform: translateY(20px) rotate(-6deg) scale(0.9); } }
-        @keyframes float-3 { 0%, 100% { transform: translate(0, 0) rotate(0deg); } 50% { transform: translate(15px, 15px) rotate(10deg); } }
-        .animate-float-1 { animation: float-1 15s infinite ease-in-out; }
-        .animate-float-2 { animation: float-2 12s infinite ease-in-out; }
-        .animate-float-3 { animation: float-3 18s infinite ease-in-out; }
 
         @keyframes spin-slow {
             from { transform: rotate(0deg); }
@@ -89,21 +82,21 @@
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
         }
 
-        /* Custom CSS for the Roadmap Timeline */
+        /* Custom CSS for the Roadmap Timeline Line */
         #animated-line {
-            transition: height 0.5s ease-out; /* Slow animation for line growth */
+            transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1); 
+            opacity: 0;
         }
         .roadmap-step:nth-child(even) .roadmap-step-card {
-            /* Example subtle accent color for even cards */
-            background-color: rgba(221, 184, 146, 0.05); /* sandstone/05 */
+            background-color: rgba(221, 184, 146, 0.1); /* sandstone/10 */
         }
         
     </style>
 </head>
 <body class="bg-charcoal font-body min-h-screen relative text-ivory">
 
-    <!-- Looping Geometric Background -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <!-- Looping Geometric Background (Stays on Charcoal sections) -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-charcoal">
         <svg class="absolute inset-0 w-full h-full opacity-[0.03] animate-spin-slow" viewBox="0 0 1000 1000">
             <defs>
                 <pattern id="jaliPattern" patternUnits="userSpaceOnUse" width="100" height="100">
@@ -116,8 +109,18 @@
         <div class="absolute inset-0 z-10 pointer-events-none opacity-[0.05] bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgpzT0AAAABmJLR0QA/wD/AP+gvaeTAAAAIklEQVQImWO0E0kEwMDAwJD/B2I0oGzAhQhQJcBEUAAANg0DBy7m/K8AAAAASUVORK5CYII=')]"></div>
     </div>
 
+    <!-- Project Details Modal (Hidden by Default) -->
+    <div id="project-modal" class="fixed inset-0 z-50 bg-charcoal/95 backdrop-blur-lg flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-500">
+        <div id="modal-content" class="bg-ivory text-charcoal rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto transform scale-95 transition-transform duration-500">
+            <!-- Content inserted by JS -->
+        </div>
+        <button id="close-modal-btn" class="absolute top-4 right-4 md:top-8 md:right-8 p-3 rounded-full bg-sandstone/80 text-charcoal hover:bg-sandstone transition z-50">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+    </div>
+
     <!-- Header (Dynamic) -->
-    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 p-6 md:p-10 flex justify-between items-center text-ivory/90 transition-all duration-300 bg-transparent">
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-40 p-6 md:p-10 flex justify-between items-center text-ivory/90 transition-all duration-300 bg-transparent">
         <div class="text-2xl font-display font-bold tracking-widest text-sandstone">
             THE CUSTODIAN
         </div>
@@ -134,7 +137,7 @@
     </header>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="fixed inset-0 z-40 bg-charcoal/95 backdrop-blur-lg transform translate-x-full transition-transform duration-700 ease-in-out md:hidden">
+    <div id="mobile-menu" class="fixed inset-0 z-30 bg-charcoal/95 backdrop-blur-lg transform translate-x-full transition-transform duration-700 ease-in-out md:hidden">
         <div class="flex flex-col items-center justify-center h-full space-y-12 text-ivory font-display text-4xl">
             <a href="#about" class="mobile-nav-link hover:text-gold-accent transition duration-300">About</a>
             <a href="#projects" class="mobile-nav-link hover:text-gold-accent transition duration-300">Projects</a>
@@ -157,11 +160,11 @@
 
         <div id="hero-text-parallax" class="relative z-20 text-center text-ivory p-8">
             <h1 class="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-thin mb-4 overflow-hidden">
-                <span class="inline-block animate-fadeInUp delay-300">Zahra</span>
+                <span class="inline-block animate-fadeInUp delay-300">Fiza</span>
                 <span class="inline-block ml-4 animate-fadeInUp delay-500">Ali</span>
             </h1>
             <p class="text-xl sm:text-2xl md:text-3xl font-body uppercase tracking-[0.5em] opacity-0 animate-fadeInUp delay-800">
-                Architectural Custodian
+                The Architectural Custodian
             </p>
             <div class="mt-16 animate-pulse">
                 <a href="#projects" class="nav-link text-sandstone border-b border-sandstone pb-1 text-lg hover:text-gold-accent transition duration-300">
@@ -169,11 +172,6 @@
                 </a>
             </div>
         </div>
-
-        <!-- Floating Geometric Elements -->
-        <div class="absolute bottom-5 right-5 w-20 h-20 bg-gold-accent/10 rounded-full opacity-10 animate-float-1 z-10"></div>
-        <div class="absolute top-1/4 left-10 w-12 h-12 border-2 border-sandstone/20 rounded-md opacity-20 animate-float-2 z-10 transform scale-125"></div>
-        <div class="absolute bottom-1/3 left-1/4 w-8 h-8 bg-royal-blue/10 rounded-full opacity-10 animate-float-3 z-10"></div>
     </section>
 
     <!-- --- SECTIONS START --- -->
@@ -213,8 +211,6 @@
                 </div>
             </div>
         </div>
-        <div class="absolute top-0 left-0 w-1/4 h-1/4 border-l border-t border-sandstone/10 transition-all duration-700 hover:border-sandstone/50 hidden lg:block"></div>
-        <div class="absolute bottom-0 right-0 w-1/4 h-1/4 border-r border-b border-sandstone/10 transition-all duration-700 hover:border-sandstone/50 hidden lg:block"></div>
     </section>
 
     <!-- Project Showcase -->
@@ -233,80 +229,78 @@
                 <!-- Project cards rendered by JS -->
             </div>
         </div>
-        <div class="absolute top-0 left-0 w-1/4 h-1/4 border-l border-t border-sandstone/10 hidden lg:block"></div>
-        <div class="absolute bottom-0 right-0 w-1/4 h-1/4 border-r border-b border-sandstone/10 hidden lg:block"></div>
     </section>
 
     <!-- Project Roadmap (Enhanced Infographics with Animated Line) -->
-    <section id="roadmap" class="relative py-24 md:py-32 px-6 sm:px-10 lg:px-20 bg-charcoal text-ivory overflow-hidden">
+    <!-- Switched to Lighter, Subtle Colors -->
+    <section id="roadmap" class="relative py-24 md:py-32 px-6 sm:px-10 lg:px-20 bg-ivory text-charcoal overflow-hidden">
         <div class="max-w-7xl mx-auto z-10 relative">
             <div class="scroll-reveal">
-                <h2 class="text-4xl md:text-6xl font-display font-light mb-16 text-center text-sandstone border-b border-sandstone/20 pb-4">
+                <h2 class="text-4xl md:text-6xl font-display font-light mb-16 text-center text-charcoal/70 border-b border-charcoal/20 pb-4">
                     End-to-End Service Roadmap
                 </h2>
             </div>
             <div class="text-center space-y-8 mb-16 scroll-reveal">
-                <p class="max-w-4xl mx-auto text-xl text-ivory/90">
+                <p class="max-w-4xl mx-auto text-xl text-charcoal/90">
                     Our comprehensive service model ensures design fidelity from the initial concept to post-occupancy handover. Each phase is a carefully curated step in the creation of your architectural legacy.
                 </p>
             </div>
             <div id="roadmap-timeline" class="relative pt-12">
                 
                 <!-- Animated Line - This line grows as the user scrolls, creating the leading animation -->
-                <div id="animated-line" class="absolute left-1/2 -ml-0.5 top-0 w-1 bg-sandstone/50 transform origin-top hidden md:block" style="height: 0px; z-index: 5; transition: height 0.5s ease-out;"></div>
+                <!-- The line now uses a charcoal color on the ivory background -->
+                <div id="animated-line" class="absolute left-1/2 -ml-0.5 top-0 w-1 bg-sandstone transform origin-top hidden md:block" style="height: 0px; opacity: 0; z-index: 5;"></div>
                 
                 <!-- Roadmap steps rendered by JS -->
                 <div id="roadmap-steps" class="space-y-24"></div>
             </div>
         </div>
-        <div class="absolute top-0 left-0 w-1/4 h-1/4 border-l border-t border-sandstone/10 hidden lg:block"></div>
-        <div class="absolute bottom-0 right-0 w-1/4 h-1/4 border-r border-b border-sandstone/10 hidden lg:block"></div>
     </section>
 
 
-    <!-- Awards & Testimonials Section (UPDATED COLORS: Lighter and more subtle) -->
-    <section id="awards-testimonials" class="relative py-24 md:py-32 px-6 sm:px-10 lg:px-20 bg-ivory text-charcoal overflow-hidden">
+    <!-- Awards & Testimonials Section -->
+    <section id="awards-testimonials" class="relative py-24 md:py-32 px-6 sm:px-10 lg:px-20 bg-charcoal text-ivory overflow-hidden">
         <div class="max-w-7xl mx-auto z-10 relative">
             <div class="scroll-reveal">
-                <h2 class="text-4xl md:text-6xl font-display font-light mb-16 text-center text-charcoal/70 border-b border-charcoal/20 pb-4">
+                <h2 class="text-4xl md:text-6xl font-display font-light mb-16 text-center text-sandstone border-b border-sandstone/20 pb-4">
                     Recognition & Voice
                 </h2>
             </div>
             <!-- Awards/Motion Counters -->
-            <div class="grid md:grid-cols-3 gap-8 mb-20 text-center">
+            <div id="counters-container" class="grid md:grid-cols-3 gap-8 mb-20 text-center">
                 <!-- Counter Card 1 (Subtle Colors) -->
-                <div class="scroll-reveal p-8 bg-white rounded-xl border border-charcoal/10 shadow-lg">
+                <div class="scroll-reveal counter-card p-8 bg-ivory/5 rounded-xl border border-ivory/10 shadow-lg">
                     <i data-lucide="award" class="w-12 h-12 text-emerald/50 mx-auto mb-4"></i>
                     <span class="animated-counter text-8xl font-display font-extralight text-sandstone" data-target="3">0</span>
-                    <p class="text-charcoal/70 text-xl mt-2">Major Awards</p>
+                    <p class="text-ivory/70 text-xl mt-2">Major Awards</p>
                 </div>
                 <!-- Counter Card 2 (Subtle Colors) -->
-                <div class="scroll-reveal p-8 bg-white rounded-xl border border-charcoal/10 shadow-lg">
+                <div class="scroll-reveal counter-card p-8 bg-ivory/5 rounded-xl border border-ivory/10 shadow-lg">
                     <i data-lucide="shield" class="w-12 h-12 text-emerald/50 mx-auto mb-4"></i>
                     <span class="animated-counter text-8xl font-display font-extralight text-sandstone" data-target="25">0</span>
-                    <p class="text-charcoal/70 text-xl mt-2">Years of Practice</p>
+                    <p class="text-ivory/70 text-xl mt-2">Years of Practice</p>
                 </div>
                 <!-- Counter Card 3 (Subtle Colors) -->
-                <div class="scroll-reveal p-8 bg-white rounded-xl border border-charcoal/10 shadow-lg">
+                <div class="scroll-reveal counter-card p-8 bg-ivory/5 rounded-xl border border-ivory/10 shadow-lg">
                     <i data-lucide="users" class="w-12 h-12 text-emerald/50 mx-auto mb-4"></i>
                     <span class="animated-counter text-8xl font-display font-extralight text-sandstone" data-target="100">0</span>
-                    <p class="text-charcoal/70 text-xl mt-2">Projects Completed</p>
+                    <p class="text-ivory/70 text-xl mt-2">Projects Completed</p>
                 </div>
             </div>
 
             <!-- Client Testimonials (Functional Slider) -->
             <div class="scroll-reveal">
-                <h3 class="text-3xl font-display mb-8 text-center text-charcoal">Client Testimonials</h3>
+                <h3 class="text-3xl font-display mb-8 text-center text-ivory">Client Testimonials</h3>
                 <div id="testimonial-slider" class="relative overflow-hidden w-full max-w-4xl mx-auto">
                     <div id="slider-track" class="flex transition-transform duration-700 ease-in-out">
                         <!-- Slides rendered by JS -->
                     </div>
 
                     <!-- Navigation Buttons (Subtle Colors) -->
-                    <button id="prev-btn" class="absolute top-1/2 left-0 transform -translate-y-1/2 p-3 bg-sandstone/20 rounded-full text-charcoal/80 hover:bg-sandstone transition-colors hidden md:block" aria-label="Previous Testimonial">
+                    <button id="prev-btn" class="absolute top-1/2 left-0 transform -translate-y-1/2 p-3 bg-ivory/20 rounded-full text-sandstone hover:bg-ivory/40 transition-colors hidden md:block" aria-label="Previous Testimonial">
                         <i data-lucide="arrow-left" class="w-6 h-6"></i>
                     </button>
-                    <button id="next-btn" class="absolute top-1/2 right-0 transform -translate-y-1/2 p-3 bg-sandstone/20 rounded-full text-charcoal/80 hover:bg-sandstone transition-colors hidden md:block" aria-label="Next Testimonial">
+                    <button id="next-btn" class="absolute top-1/2 right-0 transform -translate-y-1/2 p-3 bg-ivory/20 rounded-full text-sandstone hover:bg-ivory/40 transition-colors hidden md:block" aria-label="Next Testimonial">
                         <i data-lucide="arrow-right" class="w-6 h-6"></i>
                     </button>
 
@@ -317,11 +311,9 @@
                 </div>
             </div>
         </div>
-        <div class="absolute top-0 left-0 w-1/4 h-1/4 border-l border-t border-charcoal/10 hidden lg:block"></div>
-        <div class="absolute bottom-0 right-0 w-1/4 h-1/4 border-r border-b border-charcoal/10 hidden lg:block"></div>
     </section>
 
-    <!-- Contact Section (UPDATED: Animated Visiting Card) -->
+    <!-- Contact Section -->
     <section id="contact" class="relative py-24 md:py-32 px-6 sm:px-10 lg:px-20 bg-charcoal text-ivory overflow-hidden">
         <div class="max-w-7xl mx-auto z-10 relative">
             <div class="scroll-reveal">
@@ -331,14 +323,14 @@
             </div>
             <div class="grid md:grid-cols-2 gap-12">
                 
-                <!-- Animated Visiting Card (REPLACING FORM) -->
+                <!-- Animated Visiting Card -->
                 <div class="scroll-reveal flex items-center justify-center">
                     <div id="visiting-card" 
                          class="relative w-full max-w-sm h-72 rounded-xl p-8 bg-gradient-to-br from-sandstone to-sandstone/70 text-charcoal shadow-2xl overflow-hidden cursor-pointer transition-all duration-700 transform hover:scale-[1.03] hover:shadow-gold-xl active:scale-95"
                          title="Click to copy details">
                         
                         <!-- Subtle Animated Pattern Background -->
-                        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 100% 100%, #1F1F1F 10%, transparent 50%); animation: spin-slow 30s linear infinite;"></div>
+                        <div class="absolute inset-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(circle at 100% 100%, #1F1F1F 10%, transparent 50%);"></div>
                         
                         <!-- Card Content - Front -->
                         <div id="card-front" class="relative z-10 space-y-4">
@@ -382,8 +374,6 @@
                 </div>
             </div>
         </div>
-        <div class="absolute top-0 left-0 w-1/4 h-1/4 border-l border-t border-sandstone/10 hidden lg:block"></div>
-        <div class="absolute bottom-0 right-0 w-1/4 h-1/4 border-r border-b border-sandstone/10 hidden lg:block"></div>
     </section>
 
     <!-- Footer -->
@@ -462,9 +452,11 @@
 
         /**
          * Smooth scrolls to an element by its ID.
+         * IMPORTANT FIX: This function must be globally accessible (window.smoothScroll)
+         * to be called directly from inline onclick attributes in the HTML/Modal.
          * @param {string} id 
          */
-        const smoothScroll = (id) => {
+        window.smoothScroll = (id) => {
             const element = document.getElementById(id);
             if (element) {
                 element.scrollIntoView({ behavior: 'smooth' });
@@ -478,7 +470,7 @@
         const handleNavClick = (e) => {
             e.preventDefault();
             const targetId = e.currentTarget.getAttribute('href').substring(1);
-            smoothScroll(targetId);
+            window.smoothScroll(targetId);
             // Close mobile menu if open
             if (document.body.classList.contains('menu-open')) {
                 toggleMobileMenu();
@@ -489,7 +481,6 @@
             const menu = document.getElementById('mobile-menu');
             const menuOpenIcon = document.getElementById('menu-icon-open');
             const menuCloseIcon = document.getElementById('menu-icon-close');
-            const menuToggle = document.getElementById('menu-toggle');
 
             const isOpen = menu.classList.contains('translate-x-full'); // Check current state
             
@@ -532,7 +523,6 @@
                         console.log("Anonymous sign-in attempted.");
                     }
                     isAuthReady = true;
-                    // In a full application, this is where you'd trigger data loads (e.g., loadFormData())
                 });
 
                 // Authenticate using the provided custom token or anonymously
@@ -577,51 +567,52 @@
             const revealElements = document.querySelectorAll('.scroll-reveal');
             revealElements.forEach(el => {
                 const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 100) {
+                // Reveal when 150px from the bottom of the viewport
+                if (rect.top < window.innerHeight - 150) { 
                     el.classList.add('visible');
                 }
             });
+
+            // FIX: 4. Counter Animation Trigger
+            const countersContainer = document.getElementById('counters-container');
+            if (countersContainer) {
+                const rect = countersContainer.getBoundingClientRect();
+                // Start animation when the container enters the viewport
+                if (rect.top < window.innerHeight && rect.bottom > 0) {
+                    animateCounters();
+                }
+            }
             
-            // 4. Roadmap Animated Line Logic (New Feature)
+            // 5. Roadmap Animated Line Logic
             const roadmapSection = document.getElementById('roadmap-timeline');
             const animatedLine = document.getElementById('animated-line');
 
-            if (roadmapSection && animatedLine && window.innerWidth >= 768) { // Only for desktop (md: and up)
+            if (roadmapSection && animatedLine && window.innerWidth >= 768) { 
                 const sectionRect = roadmapSection.getBoundingClientRect();
-                const containerTop = sectionRect.top + window.scrollY;
-                const containerHeight = roadmapSection.offsetHeight;
+                const timelineContainerHeight = roadmapSection.offsetHeight;
+                const timelineStartOffset = 100; // Line starts below the top padding/title
                 
-                // Calculate where the current scroll is relative to the timeline start
-                // The line starts drawing when the section is 100px below its true top (due to padding/title)
-                const startPoint = containerTop + 100; 
-                // The line should stop growing once the end of the content passes the middle of the viewport
-                const endPoint = containerTop + containerHeight - (window.innerHeight / 2) + 100;
+                const distanceToViewportBottom = sectionRect.top - window.innerHeight + timelineStartOffset;
                 
-                let lineLength = 0;
-                
-                if (scrollY > startPoint) {
-                    // Current scroll depth relative to the start point
-                    const scrollDepth = scrollY - startPoint;
-                    
-                    // Total available length to draw
-                    const drawHeight = endPoint - startPoint;
-                    
-                    lineLength = Math.min(scrollDepth, drawHeight);
-                    
-                    // Lock to max height if scroll passes the end point
-                    if (scrollY > endPoint) {
-                         lineLength = containerHeight - 100; // Adjust for initial top offset
-                    }
+                let drawRatio = 0;
 
+                if (distanceToViewportBottom < 0) {
+                    const scrollProgress = -distanceToViewportBottom; 
+                    const effectiveHeight = timelineContainerHeight - timelineStartOffset;
+                    
+                    drawRatio = Math.min(1, Math.max(0, scrollProgress / effectiveHeight));
+                    
+                    const lineLength = effectiveHeight * drawRatio;
+                    
+                    animatedLine.style.height = `${lineLength}px`;
+                    animatedLine.style.opacity = '1';
+
+                } else {
+                    animatedLine.style.height = '0px';
+                    animatedLine.style.opacity = '0';
                 }
                 
-                // Adjust the starting point of the line element
-                const lineStartOffset = 100; 
-                
-                animatedLine.style.top = `${lineStartOffset}px`;
-
-                // Apply the calculated height for the animation
-                animatedLine.style.height = `${lineLength}px`;
+                animatedLine.style.top = `${timelineStartOffset}px`;
             }
 
         };
@@ -640,10 +631,9 @@
             projectList.innerHTML = ''; // Clear existing projects
 
             filteredProjects.forEach(p => {
+                // Attach window.openProjectModal() with the project ID on click
                 const cardHtml = `
-                    <div class="scroll-reveal group relative overflow-hidden rounded-lg shadow-xl cursor-pointer aspect-[4/3] transform transition-all duration-500 ease-out hover:scale-[1.03]"
-                        onmouseenter="this.querySelector('.overlay').classList.add('active');"
-                        onmouseleave="this.querySelector('.overlay').classList.remove('active');">
+                    <div onclick="window.openProjectModal(${p.id})" class="scroll-reveal group relative overflow-hidden rounded-lg shadow-xl cursor-pointer aspect-[4/3] transform transition-all duration-500 ease-out hover:scale-[1.03] active:scale-[0.98]">
                         
                         <!-- Image/Placeholder with transition -->
                         <img
@@ -697,7 +687,76 @@
             renderProjects();
         };
 
-        // 2. Testimonial Slider Logic
+        // 2. Project Modal Logic
+        const projectModal = document.getElementById('project-modal');
+        const modalContent = document.getElementById('modal-content');
+
+        window.openProjectModal = (projectId) => {
+            const project = PROJECTS.find(p => p.id === projectId);
+            if (!project) return;
+
+            modalContent.innerHTML = `
+                <div class="md:grid md:grid-cols-2 gap-6 p-4 md:p-8">
+                    <div class="md:p-0 p-4">
+                        <img src="${project.imageUrl}" alt="${project.title}" class="rounded-lg shadow-xl w-full h-auto mb-6" />
+                        <p class="text-sm text-charcoal/50 uppercase tracking-widest">${project.category} | ${project.year}</p>
+                        <h3 class="text-3xl font-display font-bold text-charcoal mb-2">${project.title}</h3>
+                        <p class="text-xl font-body text-sandstone mb-4">${project.tagline}</p>
+                        
+                        <!-- Mock Detailed Description -->
+                        <div class="space-y-4 text-charcoal/80 text-base">
+                            <p>This project, *${project.title}*, embodies the fusion of Mughal architectural discipline with computational design efficiency. It was completed in ${project.year}, focusing heavily on ${project.category === 'Residential' ? 'passive cooling and maximizing natural light' : project.category === 'Cultural' ? 'structural longevity and authentic material sourcing' : 'integrated smart systems and public flow optimization'}.</p>
+                            <p>The core challenge was to achieve the characteristic symmetry and detailing of the requested style while adhering to modern structural codes and sustainability metrics. The resulting structure serves as a benchmark for contemporary heritage-inspired architecture.</p>
+                        </div>
+
+                        <a href="#contact" onclick="window.closeProjectModal(); window.smoothScroll('contact');" class="mt-8 inline-flex items-center px-6 py-3 bg-emerald text-ivory rounded-full transition-colors hover:bg-emerald/80 shadow-md text-sm font-semibold">
+                            <i data-lucide="handshake" class="w-4 h-4 mr-2"></i> Inquire About Commissions
+                        </a>
+                    </div>
+                    
+                    <!-- Contextual Graphics / Details Pane -->
+                    <div class="hidden md:block bg-charcoal/5 p-6 rounded-r-xl">
+                        <h4 class="text-xl font-display mb-4 text-charcoal/80">Key Metrics</h4>
+                        <ul class="space-y-3 text-charcoal/70">
+                            <li class="flex justify-between border-b border-charcoal/10 pb-2"><span>Status:</span> <span class="font-semibold text-emerald">Completed</span></li>
+                            <li class="flex justify-between border-b border-charcoal/10 pb-2"><span>Area:</span> <span class="font-semibold">3,500 sq. m</span></li>
+                            <li class="flex justify-between border-b border-charcoal/10 pb-2"><span>Design Lead:</span> <span class="font-semibold">Zahra Ali</span></li>
+                            <li class="flex justify-between border-b border-charcoal/10 pb-2"><span>Style:</span> <span class="font-semibold">Mughal Futurism</span></li>
+                        </ul>
+                        
+                        <h4 class="text-xl font-display mt-8 mb-4 text-charcoal/80">Cultural Impact</h4>
+                        <p class="text-sm italic text-charcoal/60">"It stands as a testament to how deep cultural roots can inform radical modern structures, providing inspiration for the next generation of architects."</p>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons(); 
+            
+            // Show modal with transition
+            projectModal.classList.remove('opacity-0', 'pointer-events-none');
+            modalContent.classList.remove('scale-95');
+            document.body.style.overflow = 'hidden'; // Prevent scrolling background
+
+            // Add event listener for outside click to close
+            document.addEventListener('click', handleModalOutsideClick);
+        };
+
+        window.closeProjectModal = () => {
+            // Hide modal with transition
+            projectModal.classList.add('opacity-0', 'pointer-events-none');
+            modalContent.classList.add('scale-95');
+            document.body.style.overflow = ''; // Re-enable background scrolling
+            document.removeEventListener('click', handleModalOutsideClick);
+        };
+
+        const handleModalOutsideClick = (e) => {
+            // Only close if the click target is the modal backdrop itself
+            if (e.target === projectModal) {
+                window.closeProjectModal();
+            }
+        };
+
+
+        // 3. Testimonial Slider Logic
         let activeIndex = 0;
         let slideInterval = null;
 
@@ -708,7 +767,7 @@
 
             // Render Slides (Note: Updated slide colors in CSS/HTML structure are applied here)
             sliderTrack.innerHTML = TESTIMONIALS.map((t, index) => `
-                <div data-index="${index}" class="flex-shrink-0 w-full p-6 md:p-10 text-center rounded-xl bg-white shadow-xl min-h-64">
+                <div data-index="${index}" class="flex-shrink-0 w-full p-6 md:p-10 text-center rounded-xl bg-ivory/90 shadow-xl min-h-64">
                     <i data-lucide="quote" class="w-10 h-10 text-sandstone/80 mx-auto mb-4"></i>
                     <p class="text-xl md:text-2xl font-display text-charcoal italic mb-6">"${t.quote}"</p>
                     <p class="text-lg font-semibold text-emerald/70">- ${t.name}</p>
@@ -718,7 +777,7 @@
 
             // Render Dots
             paginationDots.innerHTML = TESTIMONIALS.map((t, index) => `
-                <button data-index="${index}" onclick="goToSlide(${index})" class="dot w-3 h-3 rounded-full transition-colors duration-300 ${index === activeIndex ? 'bg-sandstone' : 'bg-charcoal/20 hover:bg-charcoal/40'}" aria-label="Go to slide ${index + 1}"></button>
+                <button data-index="${index}" onclick="window.goToSlide(${index})" class="dot w-3 h-3 rounded-full transition-colors duration-300 ${index === activeIndex ? 'bg-sandstone' : 'bg-charcoal/20 hover:bg-charcoal/40'}" aria-label="Go to slide ${index + 1}"></button>
             `).join('');
             
             updateSliderPosition();
@@ -760,8 +819,12 @@
 
         // Attach slider controls to global scope
         window.goToSlide = goToSlide;
+        // Attach next/prev to global scope for buttons
+        document.getElementById('prev-btn')?.addEventListener('click', prevSlide);
+        document.getElementById('next-btn')?.addEventListener('click', nextSlide);
 
-        // 3. Roadmap Rendering (UPDATED)
+
+        // 4. Roadmap Rendering (UPDATED for light background)
         const renderRoadmap = () => {
             const stepsContainer = document.getElementById('roadmap-steps');
             if (!stepsContainer) return;
@@ -778,7 +841,7 @@
                         
                         <!-- Timeline Dot (Infographic Element) - Desktop Only -->
                         <div class="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 rounded-full ${step.iconColor.replace('text-', 'bg-')}/30 border-2 border-sandstone/30 z-10 hidden md:flex items-center justify-center transition-all duration-1000 ease-out p-1">
-                            <div class="w-full h-full rounded-full bg-charcoal flex items-center justify-center">
+                            <div class="w-full h-full rounded-full bg-ivory flex items-center justify-center">
                                 <i data-lucide="${step.icon}" class="w-4 h-4 ${step.iconColor} z-20"></i>
                             </div>
                         </div>
@@ -787,9 +850,9 @@
                         <div class="md:hidden w-3 h-3 rounded-full bg-sandstone/80 mb-6 mt-2"></div>
 
                         <!-- Content Card (Subtle Color, Shadow, and Hover effect) -->
-                        <div class="roadmap-step-card w-full md:w-5/12 p-8 rounded-2xl bg-ivory/5 border border-sandstone/20 shadow-xl backdrop-blur-sm ${ml} transform transition-all duration-700 hover:shadow-gold-xl hover:bg-ivory/10 text-center ${contentAlign}">
+                        <div class="roadmap-step-card w-full md:w-5/12 p-8 rounded-2xl bg-white shadow-xl backdrop-blur-sm ${ml} transform transition-all duration-700 hover:shadow-lg hover:bg-white/95 text-center ${contentAlign}">
                             <h3 class="text-2xl font-display font-bold mb-3 ${step.iconColor}">${step.title}</h3>
-                            <p class="text-ivory/70">${step.description}</p>
+                            <p class="text-charcoal/70">${step.description}</p>
                             <!-- Visual accent for the card -->
                             <div class="absolute inset-0 rounded-2xl ring-4 ring-inset ${step.iconColor.replace('text-', 'ring-')}/10 pointer-events-none"></div>
                         </div>
@@ -801,10 +864,14 @@
             initScrollReveal();
         };
 
-        // 4. Animated Counter Logic
+        // 5. Animated Counter Logic (Now triggered by applyScrollEffects)
         const animateCounters = () => {
             const counters = document.querySelectorAll('.animated-counter');
             counters.forEach(counter => {
+                // Prevent re-animation
+                if (counter.classList.contains('animated')) return;
+                counter.classList.add('animated');
+
                 const target = parseInt(counter.dataset.target, 10);
                 let current = 0;
                 const duration = 2000;
@@ -812,9 +879,12 @@
 
                 const updateCount = () => {
                     if (current < target) {
-                        current++;
+                        // Increase step size for smoother/faster animation on large numbers
+                        const step = Math.ceil((target - current) / 20); 
+                        current += step;
+                        if (current > target) current = target; // Clamp to target
                         counter.textContent = current;
-                        setTimeout(updateCount, stepTime);
+                        setTimeout(updateCount, 50); // Fixed interval for smoothness
                     } else {
                         counter.textContent = target; // Ensure it stops exactly on the target
                     }
@@ -823,7 +893,7 @@
             });
         };
 
-        // 5. Visiting Card Interaction Logic
+        // 6. Visiting Card Interaction Logic
         const setupVisitingCard = () => {
             const card = document.getElementById('visiting-card');
             if (!card) return;
@@ -846,7 +916,7 @@
             });
         };
         
-        // 6. Init Scroll Reveal
+        // 7. Init Scroll Reveal
         const initScrollReveal = () => {
             // Apply a small timeout to ensure elements are rendered before calculating positions
             setTimeout(() => {
@@ -871,6 +941,8 @@
                 link.addEventListener('click', handleNavClick);
             });
             document.getElementById('menu-toggle').addEventListener('click', toggleMobileMenu);
+            document.getElementById('close-modal-btn')?.addEventListener('click', window.closeProjectModal);
+
 
             window.addEventListener('scroll', applyScrollEffects);
             window.addEventListener('resize', () => {
@@ -885,7 +957,6 @@
             
             // Start components
             resetInterval();
-            animateCounters();
             initScrollReveal();
         });
 
