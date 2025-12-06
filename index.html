@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Custodian - Architectural Portfolio</title>
+    <title>AIM - Architects in Motion Portfolio</title>
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Load Lucide Icons -->
@@ -14,7 +14,6 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        // Using Google Fonts via CDN for display (Playfair) and body (Inter)
                         'display': ['"Playfair Display"', 'serif'],
                         'body': ['Inter', 'sans-serif'],
                     },
@@ -37,7 +36,7 @@
         /* Import Fonts */
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600;700&display=swap');
 
-        /* Custom Keyframes for Animations */
+        /* Custom Keyframes for General Animations */
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -81,16 +80,51 @@
             backdrop-filter: blur(8px);
             box-shadow: 0 10px 15px rgba(0, 0, 0, 0.5);
         }
-
-        /* Custom CSS for the Roadmap Timeline Line */
-        #animated-line {
-            transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1); 
-            opacity: 0;
-        }
-        .roadmap-step:nth-child(even) .roadmap-step-card {
-            background-color: rgba(221, 184, 146, 0.1); /* sandstone/10 */
+        
+        /* --- REVISED AIM LOGO TRANSFORMATION ANIMATION STYLES --- */
+        
+        /* Define the animation for the expansion parts (rchitects, n, otion) */
+        @keyframes expansion-transition {
+            /* 0% - 10%: Start: Compressed (AIM only) */
+            0% { max-width: 0px; opacity: 0; margin-right: 0px; }
+            10% { max-width: 0px; opacity: 0; margin-right: 0px; }
+            
+            /* 35% - 75%: Hold Phase (Full text visible) - Set a large max-width to allow full text to show */
+            35% { max-width: 300px; opacity: 1; margin-right: 4px; } 
+            75% { max-width: 300px; opacity: 1; margin-right: 4px; }
+            
+            /* 75% - 100%: Retraction Phase */
+            100% { max-width: 0px; opacity: 0; margin-right: 0px; }
         }
         
+        /* Styling for the parts that slide out */
+        .expansion-part {
+            overflow: hidden;
+            white-space: nowrap;
+            display: inline-block;
+            vertical-align: bottom; 
+            
+            /* Styling for the expansion text */
+            font-size: 0.875rem; /* text-sm equivalent */
+            line-height: 1.25rem; /* leading-5 equivalent */
+            font-family: 'Inter', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 0.1em; /* tracking-wider equivalent */
+            color: #FFD700; /* gold-accent (light color) */
+            
+            /* Apply the keyframes */
+            animation: expansion-transition 8s infinite cubic-bezier(0.4, 0, 0.6, 1);
+        }
+
+        /* Styling for the bold, highlighted acronym letters */
+        .acronym-part {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem; /* text-2xl */
+            font-weight: 800; /* font-extrabold */
+            letter-spacing: 0.1em; /* tracking-widest */
+            color: #DDB892; /* sandstone */
+        }
+
     </style>
 </head>
 <body class="bg-charcoal font-body min-h-screen relative text-ivory">
@@ -106,7 +140,7 @@
             </defs>
             <rect width="100%" height="100%" fill="url(#jaliPattern)" transform="rotate(15 500 500)" />
         </svg>
-        <div class="absolute inset-0 z-10 pointer-events-none opacity-[0.05] bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgpzT0AAAABmJLR0QA/wD/AP+gvaeTAAAAIklEQVQImWO0E0kEwMDAwJD/B2I0oGzAhQhQJcBEUAAANg0DBy7m/K8AAAAASUVORK5CYII=')]"></div>
+        <div class="absolute inset-0 z-10 pointer-events-none opacity-[0.05] bg-[url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgpzT0AAAAIklEQVQImWO0E0kEwMDAwJD/B2I0oGzAhQhQJcBEUAAANg0DBy7m/K8AAAAASUVORK5CYII=')]"></div>
     </div>
 
     <!-- Project Details Modal (Hidden by Default) -->
@@ -121,9 +155,23 @@
 
     <!-- Header (Dynamic) -->
     <header id="main-header" class="fixed top-0 left-0 right-0 z-40 p-6 md:p-10 flex justify-between items-center text-ivory/90 transition-all duration-300 bg-transparent">
-        <div class="text-2xl font-display font-bold tracking-widest text-sandstone">
-            THE CUSTODIAN
+        
+        <!-- AIM Logo with Transformation Animation (REVISED STRUCTURE) -->
+        <div id="logo-animated" class="flex items-baseline h-8">
+            
+            <!-- A -->
+            <span class="acronym-part">A</span>
+            <span class="expansion-part" id="expansion-A">rchitects </span>
+
+            <!-- I -->
+            <span class="acronym-part ml-1">I</span>
+            <span class="expansion-part" id="expansion-I">n </span>
+
+            <!-- M -->
+            <span class="acronym-part ml-1">M</span>
+            <span class="expansion-part" id="expansion-M">otion</span>
         </div>
+
         <nav class="hidden md:flex space-x-8 text-sm uppercase tracking-wider font-body">
             <a href="#about" class="nav-link group relative hover:text-gold-accent transition duration-300">About<span class="absolute left-0 bottom-0 w-full h-[1px] bg-gold-accent transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span></a>
             <a href="#projects" class="nav-link group relative hover:text-gold-accent transition duration-300">Projects<span class="absolute left-0 bottom-0 w-full h-[1px] bg-gold-accent transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left duration-300"></span></a>
@@ -160,11 +208,11 @@
 
         <div id="hero-text-parallax" class="relative z-20 text-center text-ivory p-8">
             <h1 class="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-display font-thin mb-4 overflow-hidden">
-                <span class="inline-block animate-fadeInUp delay-300">Fiza</span>
+                <span class="inline-block animate-fadeInUp delay-300">Zahra</span>
                 <span class="inline-block ml-4 animate-fadeInUp delay-500">Ali</span>
             </h1>
             <p class="text-xl sm:text-2xl md:text-3xl font-body uppercase tracking-[0.5em] opacity-0 animate-fadeInUp delay-800">
-                The Architectural Custodian
+                Architectural Custodian
             </p>
             <div class="mt-16 animate-pulse">
                 <a href="#projects" class="nav-link text-sandstone border-b border-sandstone pb-1 text-lg hover:text-gold-accent transition duration-300">
@@ -188,7 +236,7 @@
                 <div class="scroll-reveal">
                     <div class="relative aspect-[3/4] overflow-hidden rounded-xl shadow-2xl">
                         <img
-                            src="https://img.freepik.com/free-photo/happy-successful-muslim-businesswoman-posing-outside_74855-2007.jpg?semt=ais_hybrid&w=740&q=80"
+                            src="https://placehold.co/800x1000/1F1F1F/F7F3E8?text=Zahra+Ali+Portrait"
                             alt="Architect Zahra Ali"
                             class="w-full h-full object-cover transition-all duration-1000 transform hover:scale-105"
                             onerror="this.onerror=null; this.src='https://placehold.co/800x1000/1F1F1F/F7F3E8?text=Zahra+Ali+Portrait';"
@@ -378,7 +426,7 @@
 
     <!-- Footer -->
     <footer class="py-12 px-6 sm:px-10 lg:px-20 bg-charcoal border-t border-sandstone/10 text-ivory/50 text-center text-xs relative z-20">
-        <p>&copy; 2024 The Custodian. Architectural Poetry in Motion.</p>
+        <p>&copy; 2024 AIM (Architects in Motion). Architectural Poetry in Motion.</p>
         <p class="mt-2 text-sandstone">Inspired by Mughal Aesthetics.</p>
         <!-- User ID placeholder for Firebase requirement -->
         <p class="mt-4 text-[10px] opacity-20">User ID: <span id="user-id-display">Not Authenticated</span></p>
@@ -573,7 +621,7 @@
                 }
             });
 
-            // FIX: 4. Counter Animation Trigger
+            // 4. Counter Animation Trigger (FIXED)
             const countersContainer = document.getElementById('counters-container');
             if (countersContainer) {
                 const rect = countersContainer.getBoundingClientRect();
@@ -864,7 +912,7 @@
             initScrollReveal();
         };
 
-        // 5. Animated Counter Logic (Now triggered by applyScrollEffects)
+        // 5. Animated Counter Logic (FIXED)
         const animateCounters = () => {
             const counters = document.querySelectorAll('.animated-counter');
             counters.forEach(counter => {
@@ -875,8 +923,7 @@
                 const target = parseInt(counter.dataset.target, 10);
                 let current = 0;
                 const duration = 2000;
-                const stepTime = Math.abs(Math.floor(duration / target));
-
+                
                 const updateCount = () => {
                     if (current < target) {
                         // Increase step size for smoother/faster animation on large numbers
